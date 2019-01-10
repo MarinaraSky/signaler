@@ -1,5 +1,4 @@
-#ifndef PRIMES_H
-#define PRIMES_H
+#include <stdint.h>
 
 /**
  * @brief Header file for my prime finding algorithm
@@ -10,12 +9,17 @@
  */
 typedef struct primes Primes;
 
+struct primes{
+	uint32_t prime;
+	Primes *next;
+	Primes *last;
+};
+
 /**
  * @brief Generates list of next 100 primes
- * @param list Primes pointer to append next 100 primes to
  * @param start_prime Prime Number to start from
  */
-void Primes_getList(Primes *list, uint32_t start_prime);
+Primes *Primes_getList(uint32_t start_prime);
 
 /**
  * @brief Destroys list of primes
@@ -23,4 +27,3 @@ void Primes_getList(Primes *list, uint32_t start_prime);
  */
 void Primes_destroyList(Primes *list);
 
-#endif
