@@ -19,8 +19,20 @@ struct sigaction sigHandler = {
 	.sa_flags = SA_RESTART
 };
 
-int main(void)
+int main(int argc, char **argv)
 {
+	int opt = 0;
+	while((opt = getopt(argc, argv, "r")) != -1)
+	{
+		switch(opt)
+		{
+			case 'r':
+				printf("2\n");
+				return 0;
+				break;
+		}
+	}
+
 	uint32_t start = 2;
 	uint32_t primesToMake = 10;
 	Primes *list = Primes_getList(start, primesToMake);
