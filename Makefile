@@ -1,4 +1,4 @@
-CFLAGS += -Wall -Wextra -Wpedantic
+CFLAGS += -Wall -Wextra -Wpedantic -Waggregat-return -Wwrite-strings -Wvla -Wfloat-equal
 
 CFLAGS += -std=c11
 
