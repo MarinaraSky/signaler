@@ -18,12 +18,6 @@ struct primes{
 /**
  * @brief Generates list of next 100 primes
  * @param start_prime Prime Number to start from
+ * @param primesToMake Number of primes to find
  */
-Primes *Primes_getList(uint32_t start_prime);
-
-/**
- * @brief Destroys list of primes
- * @param list List to be destroyed
- */
-void Primes_destroyList(Primes *list);
-
+Primes *Primes_getList(uint32_t start_prime, uint32_t primesToMake);
