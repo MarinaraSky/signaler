@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "primes.h"
 
@@ -22,7 +23,9 @@ struct sigaction sigHandler = {
 int main(int argc, char **argv)
 {
 	int opt = 0;
-	while((opt = getopt(argc, argv, "r")) != -1)
+	char *pEnd;
+	uint32_t end = -1;
+	while((opt = getopt(argc, argv, "re:")) != -1)
 	{
 		switch(opt)
 		{
@@ -30,6 +33,11 @@ int main(int argc, char **argv)
 				printf("2\n");
 				return 0;
 				break;
+			case 'e':
+			{
+				end = strtoul(optarg, &pEnd, 10);
+				break;
+			}
 		}
 	}
 
@@ -47,6 +55,10 @@ int main(int argc, char **argv)
 	{
 		if(print == true)
 		{
+			if(end > 0 && cursor->prime > end)
+			{
+				return 0;	
+			}
 			printf("%d\n", cursor->prime);
 			print = false;
 			if(reverse == false)
