@@ -24,7 +24,7 @@ int main(void)
 	uint32_t start = 2;
 	uint32_t primesToMake = 10;
 	Primes *list = Primes_getList(start, primesToMake);
-	Primes *last = list;
+	Primes *lastPrime = list;
 	first = cursor = list;
 	sigaction(SIGALRM, &sigHandler, NULL);
 	sigaction(SIGHUP, &sigHandler, NULL);	
@@ -37,18 +37,22 @@ int main(void)
 		{
 			printf("%d\n", cursor->prime);
 			print = false;
-		}
-		if(reverse == false)
-		{
-			cursor = cursor->next;
-		}
-		else if(reverse == true && cursor->last != NULL)
-		{
-			cursor = cursor->last;
+			if(reverse == false)
+			{
+				cursor = cursor->next;
+			}
+			else if(reverse == true && cursor->last != NULL)
+			{
+				cursor = cursor->last;	
+			}
+			else if(reverse == true && cursor->last == NULL)
+			{
+				return 0;
+			}
 		}
 		if(skip == true && reverse == true)
 		{
-			if(cursor->prime == 5)
+			if(cursor->prime == 3)
 			{
 				fprintf(stderr, "No numbers to skip to.\n");
 			}
@@ -63,12 +67,13 @@ int main(void)
 			cursor = cursor->next;
 			skip = false;
 		}
-		while(last->next != NULL)
+		while(lastPrime->next != NULL)
 		{
-			last = last->next;
+			lastPrime = lastPrime->next;
 		}
-		uint32_t nextPrime = last->prime + 1;
-		last->next = Primes_getList(nextPrime, primesToMake);
+		uint32_t nextPrime = lastPrime->prime + 1;
+		lastPrime->next = Primes_getList(nextPrime, primesToMake);
+		lastPrime->next->last = lastPrime;
 		pause();
 	}
 	return 0;

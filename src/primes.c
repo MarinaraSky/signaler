@@ -25,11 +25,9 @@ Primes *Primes_getList(uint32_t startPrime, uint32_t primesToMake)
 			list = newPrimeNode(getNextPrime(startPrime));
 			cursor = list;
 			startPrime = list->prime;
-			//printf("List Head: %d\n", list->prime);
 		}
 		else
 		{
-			//printf("Start Prime: %d\n", start_prime);
 			cursor->next = newPrimeNode(getNextPrime(startPrime));
 			cursor->next->last = cursor;
 			startPrime = cursor->next->prime;
@@ -38,7 +36,6 @@ Primes *Primes_getList(uint32_t startPrime, uint32_t primesToMake)
 		primesAdded++;
 		startPrime++;
 	}
-	//list = list->next;
 	return list;
 	
 }
@@ -46,7 +43,6 @@ Primes *Primes_getList(uint32_t startPrime, uint32_t primesToMake)
 static Primes *newPrimeNode(uint32_t primeNum)
 {
 	Primes *node = calloc(1, sizeof(*node));
-	//printf("New prime: %d\n", primeNum);
 	node->prime = primeNum;
 	node->next = node->last = NULL;
 	return node;
