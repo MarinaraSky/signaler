@@ -7,16 +7,21 @@ int main()
 {
 	Primes *list = Primes_getList(2);
 	Primes *index = list;
-	while(1)
+	for(int i = 0; i < 100; i++)
 	{
-		if(index == NULL)
+		printf("Curr prime: %d\n", index->prime);
+		if(index->next == NULL)
 		{
-			index->next = Primes_getList(index->last->prime);
+			printf("Generating Next Primes\n");
+			int new_prime = index->prime + 1;
+			index->next = Primes_getList(new_prime);
 			index = index->next;
 		}
-		printf("Curr prime: %d\n", index->prime);
-		index = index->next;
-		sleep(1);
+		else
+		{
+			index = index->next;
+		}
 	}
+	Primes_destroyList(list);
 	return 0;
 }
