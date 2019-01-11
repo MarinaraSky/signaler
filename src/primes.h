@@ -18,5 +18,6 @@ struct primes{
 /**
  * @brief Generates list of next 100 primes
  * @param start_prime Prime Number to start from
+ * @param primesToMake Number of primes to find
  */
-Primes *Primes_getList(uint32_t start_prime);
+Primes *Primes_getList(uint32_t start_prime, uint32_t primesToMake);

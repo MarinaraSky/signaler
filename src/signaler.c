@@ -10,6 +10,7 @@ static void handleMe(int sig);
 
 static bool reverse = false;
 static bool skip = false;
+static bool print = true;
 static Primes *cursor = NULL;
 static Primes *first = NULL;
 
@@ -21,21 +22,21 @@ struct sigaction sigHandler = {
 int main(void)
 {
 	uint32_t start = 2;
+	uint32_t primesToMake = 10;
+	Primes *list = Primes_getList(start, primesToMake);
+	Primes *last = list;
+	first = cursor = list;
+	sigaction(SIGALRM, &sigHandler, NULL);
 	sigaction(SIGHUP, &sigHandler, NULL);	
 	sigaction(SIGUSR1, &sigHandler, NULL);	
 	sigaction(SIGUSR2, &sigHandler, NULL);	
-	Primes *list = Primes_getList(start);
-	first = cursor = list;
+	alarm(1);
 	while(1)
 	{
-		printf("Curr Prime: %d\n", cursor->prime);
-		printf("Skip: %d\n", skip);
-		if(cursor->next == NULL)
+		if(print == true)
 		{
-			int nextPrime = cursor->prime + 1;
-			cursor->next = Primes_getList(nextPrime);
-			cursor->next->last = cursor;
-			cursor = cursor->next;
+			printf("%d\n", cursor->prime);
+			print = false;
 		}
 		if(reverse == false)
 		{
@@ -45,25 +46,30 @@ int main(void)
 		{
 			cursor = cursor->last;
 		}
-		if(skip == true && cursor->next != NULL && cursor->next->next == NULL)
+		if(skip == true && reverse == true)
 		{
-			int nextPrime = cursor->next->prime + 1;
-			cursor->next->next = Primes_getList(nextPrime);
-			cursor->next->next->last = cursor;
-			cursor = cursor->next;
-			skip = false;
-		}
-		else if(skip == true && reverse == true)
-		{
-			cursor = cursor->last;
-			skip = false;
+			if(cursor->prime == 5)
+			{
+				fprintf(stderr, "No numbers to skip to.\n");
+			}
+			else
+			{
+				cursor = cursor->last;
+				skip = false;
+			}
 		}
 		else if(skip == true)
 		{
 			cursor = cursor->next;
 			skip = false;
 		}
-		sleep(1);
+		while(last->next != NULL)
+		{
+			last = last->next;
+		}
+		uint32_t nextPrime = last->prime + 1;
+		last->next = Primes_getList(nextPrime, primesToMake);
+		pause();
 	}
 	return 0;
 }
@@ -73,16 +79,17 @@ static void handleMe(int sig)
 	switch(sig)
 	{
 	case SIGHUP:
-		fprintf(stderr, "RESETTING\n");
 		cursor = first;
 		break;
 	case SIGUSR1:
-		fprintf(stderr, "SKIPPING\n");
 		skip ^= true;
 		break;
 	case SIGUSR2:
-		fprintf(stderr, "REVERSING\n");
 		reverse ^= true;
+		break;
+	case SIGALRM:
+		print ^= true;
+		alarm(1);
 		break;
 	}
 }

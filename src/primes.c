@@ -8,36 +8,35 @@ static Primes *newPrimeNode(uint32_t primeNum);
 static uint32_t getNextPrime(uint32_t num);
 static uint32_t isPrime(uint32_t num);
 
-Primes *Primes_getList(uint32_t start_prime)
+Primes *Primes_getList(uint32_t startPrime, uint32_t primesToMake)
 {
-	int primes_added = 0;
-	int primes_to_add = 5;
-	if(start_prime < 2)
+	uint32_t primesAdded = 0;
+	if(startPrime < 2)
 	{
 		fprintf(stderr, "Primes cannot be less than 2.\n");
 		return NULL;
 	}
 	Primes *list = NULL; 
 	Primes *cursor = list;
-	while(primes_added < primes_to_add)
+	while(primesAdded < primesToMake)
 	{
 		if(list == NULL)
 		{
-			list = newPrimeNode(getNextPrime(start_prime));
+			list = newPrimeNode(getNextPrime(startPrime));
 			cursor = list;
-			start_prime = list->prime;
+			startPrime = list->prime;
 			//printf("List Head: %d\n", list->prime);
 		}
 		else
 		{
 			//printf("Start Prime: %d\n", start_prime);
-			cursor->next = newPrimeNode(getNextPrime(start_prime));
+			cursor->next = newPrimeNode(getNextPrime(startPrime));
 			cursor->next->last = cursor;
-			start_prime = cursor->next->prime;
+			startPrime = cursor->next->prime;
 			cursor = cursor->next;
 		}
-		primes_added++;
-		start_prime++;
+		primesAdded++;
+		startPrime++;
 	}
 	//list = list->next;
 	return list;
@@ -55,7 +54,7 @@ static Primes *newPrimeNode(uint32_t primeNum)
 
 static uint32_t getNextPrime(uint32_t start)
 {
-	for(int i = start; i < start * 2; i++)
+	for(uint32_t i = start; i < start * 2; i++)
 	{
 		if(isPrime(i))
 		{
@@ -67,7 +66,7 @@ static uint32_t getNextPrime(uint32_t start)
 
 static uint32_t isPrime(uint32_t num)
 {
-	int nextPrime = 0;
+	uint32_t nextPrime = 0;
 	if(num > 1)
 	{
 		nextPrime = num;
@@ -79,7 +78,7 @@ static uint32_t isPrime(uint32_t num)
 		{
 			return 0;
 		}
-		for(int i = 3; i < num / 2; i += 2)
+		for(uint32_t i = 3; i < num / 2; i += 2)
 		{
 			if(nextPrime % i == 0)
 			{
