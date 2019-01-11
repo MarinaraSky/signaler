@@ -1,16 +1,16 @@
-CFLAGS += -Wall -Wextra -Wpedantic -Waggregat-return -Wwrite-strings -Wvla -Wfloat-equal
+CFLAGS += -Wall -Wextra -Wpedantic -Waggregate-return -Wwrite-strings -Wvla -Wfloat-equal
 
 CFLAGS += -std=c11
 
-bin/signaler: src/signaler.o 
+bin/signaler: src/signaler.o src/primes.o
 	$(CC) $(CFLAGS) $^ -o bin/signaler
 
 debug: CFLAGS += -g
-debug: src/signaler.o 
+debug: src/signaler.o src/primes.o
 	$(CC) $(CFLAGS) $^ -o bin/signaler
 
 profile: CFLAGS += -pg
-profile: src/signaler.o 
+profile: src/signaler.o src/primes.o
 	$(CC) $(CFLAGS) $^ -o bin/signaler
 
 .PHONY: clean
