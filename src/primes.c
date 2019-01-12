@@ -3,9 +3,11 @@
 #include <stdlib.h>
 #include "primes.h"
 
-
+/* Allocates memory and sets value for new prime number node */
 static Primes *newPrimeNode(uint32_t primeNum);
+/* Takes a starting point and finds the next prime number */
 static uint32_t getNextPrime(uint32_t num);
+/* Check to find if a number is prime */
 static uint32_t isPrime(uint32_t num);
 
 Primes *Primes_getList(uint32_t startPrime, uint32_t primesToMake)
