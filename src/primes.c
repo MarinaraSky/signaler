@@ -95,3 +95,14 @@ static uint32_t isPrime(uint32_t num)
 	}
 	return nextPrime;
 }
+
+void Primes_destroyList(Primes *list)
+{
+	while(list->next != NULL)
+	{
+		Primes *index = list;
+		free(list);
+		list = index->next;
+	}
+	free(list);
+}

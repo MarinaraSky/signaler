@@ -91,6 +91,7 @@ int main(int argc, char **argv)
 			}
 			else if(reverse == true && cursor->last == NULL)
 			{
+				Primes_destroyList(list);
 				return 0;
 			}
 		}

@@ -26,3 +26,5 @@ struct primes{
  * @return Pointer to list of new primes
  */
 Primes *Primes_getList(uint32_t start_prime, uint32_t primesToMake);
+
+void Primes_destroyList(Primes *list);
