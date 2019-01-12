@@ -45,6 +45,11 @@ Primes *Primes_getList(uint32_t startPrime, uint32_t primesToMake)
 static Primes *newPrimeNode(uint32_t primeNum)
 {
 	Primes *node = calloc(1, sizeof(*node));
+	if(node == NULL)
+	{
+		fprintf(stderr, "Failed to allocate memory.\n");
+		exit(1);
+	}
 	node->prime = primeNum;
 	node->next = node->last = NULL;
 	return node;
